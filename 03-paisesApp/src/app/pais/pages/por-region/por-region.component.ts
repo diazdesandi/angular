@@ -5,32 +5,21 @@ import { PaisService } from '../../services/pais.service';
 @Component({
   selector: 'app-por-region',
   templateUrl: './por-region.component.html',
-  styles: [],
+  styles: [
+    `
+      button {
+        margin-right: 5px;
+      }
+    `,
+  ],
 })
 export class PorRegionComponent {
-  termino: string = '';
-  hayError: boolean = false;
-  paises: Country[] = [];
+  regiones: string[] = ['africa', 'americas', 'asia', 'europe', 'oceania'];
+  regionActiva: string = '';
 
-  constructor(private paisService: PaisService) {}
+  constructor() {}
 
-  buscar(termino: string) {
-    this.hayError = false;
-    this.termino = termino;
-
-    this.paisService.buscarRegion(this.termino).subscribe({
-      next: (paises) => {
-        console.log(paises);
-        this.paises = paises;
-      },
-      error: (err) => {
-        this.hayError = true;
-        this.paises = [];
-      },
-    });
-  }
-
-  sugerencias(termino: string) {
-    this.hayError = false;
+  activarRegion(region: string) {
+    this.regionActiva = region;
   }
 }
