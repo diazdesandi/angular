@@ -1,4 +1,3 @@
-import cli from '@angular/cli';
 import { Component } from '@angular/core';
 import { interval } from 'rxjs';
 

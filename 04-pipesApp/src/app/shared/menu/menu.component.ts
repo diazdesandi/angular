@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { OrdenarComponent } from 'src/app/ventas/pages/ordenar/ordenar.component';
 
 @Component({
   selector: 'app-menu',
@@ -37,6 +38,7 @@ export class MenuComponent implements OnInit {
       {
         label: 'Pipes personalizados',
         icon: 'pi pi-cog',
+        routerLink: 'ordenar',
       },
     ];
   }
