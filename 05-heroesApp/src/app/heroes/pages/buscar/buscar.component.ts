@@ -11,7 +11,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 export class BuscarComponent implements OnInit {
   termino: string = '';
   heroes: Heroe[] = [];
-  heroeSeleccionado!: Heroe;
+  heroeSeleccionado: Heroe | undefined;
 
   constructor(private heroesService: HeroesService) {}
 
@@ -19,11 +19,16 @@ export class BuscarComponent implements OnInit {
 
   buscando() {
     this.heroesService
-      .getSugerencias(this.termino)
+      .getSugerencias(this.termino.trim())
       .subscribe((heroes) => (this.heroes = heroes));
   }
 
   opcionSeleccionada(event: MatAutocompleteSelectedEvent) {
+    if (!event.option.value) {
+      this.heroeSeleccionado = undefined;
+      console.log('No hay valor');
+      return;
+    }
     const heroe: Heroe = event.option.value;
     this.termino = heroe.superhero;
     this.heroesService

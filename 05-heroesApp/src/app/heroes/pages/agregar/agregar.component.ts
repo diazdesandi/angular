@@ -1,16 +1,44 @@
 import { Component, OnInit } from '@angular/core';
+import { Heroe, Publisher } from '../../interfaces/heroes';
+import { HeroesService } from '../../services/heroes.service';
 
 @Component({
   selector: 'app-agregar',
   templateUrl: './agregar.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class AgregarComponent implements OnInit {
+  publishers = [
+    {
+      id: 'DC Comics',
+      desc: 'DC - Comics',
+    },
+    {
+      id: 'Marvel',
+      desc: 'Marvel - Comics',
+    },
+  ];
 
-  constructor() { }
+  heroe: Heroe = {
+    superhero: '',
+    publisher: Publisher.DCComics,
+    alter_ego: '',
+    first_appearance: '',
+    characters: '',
+    alt_img: '',
+  };
 
-  ngOnInit(): void {
+  constructor(private heroeservice: HeroesService) {}
+
+  ngOnInit(): void {}
+
+  guardar() {
+    if (this.heroe.superhero.trim().length === 0) {
+      return;
+    }
+
+    this.heroeservice
+      .addHeroe(this.heroe)
+      .subscribe((resp) => console.log(resp));
   }
-
 }
