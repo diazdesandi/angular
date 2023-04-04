@@ -168,13 +168,13 @@
       "characters": "Norrin Radd"
     },
     {
-      "superhero": "Robin",
-      "publisher": "DC Comics",
-      "alter_ego": "",
-      "first_appearance": "",
-      "characters": "",
-      "alt_img": "",
-      "id": "ti18Myg"
+      "superhero": "Robin nuevo",
+      "publisher": "Marvel",
+      "alter_ego": "Ricardo Tapia",
+      "first_appearance": "Primer comic",
+      "characters": "Nightwing",
+      "alt_img": "https://cdn-3.expansion.mx/dims4/default/8a11368/2147483647/strip/true/crop/1080x1080+0+0/resize/1200x1200!/format/webp/quality/90/?url=https%3A%2F%2Fcdn-3.expansion.mx%2F9e%2F0a%2Feb96687a40beaf8497312cc33b08%2F223632340-255539419405390-7906929342624538468-n.jpg",
+      "id": "qXzUNnF"
     }
   ]
 }

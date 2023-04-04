@@ -17,7 +17,7 @@ export class HeroesService {
   }
 
   getByID(id: string): Observable<Heroe> {
-    return this.http.get<Heroe>(this.url + '/' + id);
+    return this.http.get<Heroe>(`${this.url}/${id}`);
   }
 
   getSugerencias(termino: string): Observable<Heroe[]> {
@@ -26,5 +26,13 @@ export class HeroesService {
 
   addHeroe(heroe: Heroe): Observable<Heroe> {
     return this.http.post<Heroe>(`${this.url}`, heroe);
+  }
+
+  updateHeroe(heroe: Heroe): Observable<Heroe> {
+    return this.http.put<Heroe>(`${this.url}/${heroe.id}`, heroe);
+  }
+
+  deleteHeroe(id: string) {
+    return this.http.delete<Heroe>(`${this.url}/${id}`);
   }
 }
