@@ -9,6 +9,13 @@ export class BasicosComponent implements OnInit {
   // Para ver el elemento de una referencia local
   @ViewChild('miFormulario') miFormulario!: NgForm;
 
+  // Para establecer valores en el formulario al cargar, utilizando ngModel
+  initForm = {
+    producto: '',
+    precio: 0,
+    inventario: 0,
+  };
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -27,6 +34,11 @@ export class BasicosComponent implements OnInit {
   }
 
   guardar() {
-    console.log(this.miFormulario);
+    // console.log(this.miFormulario);
+    console.log('Guardado');
+    this.miFormulario.resetForm({
+      precio: 0,
+      inventario: 0,
+    });
   }
 }
