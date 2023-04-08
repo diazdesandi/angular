@@ -42,7 +42,7 @@ export class SidemenuComponent {
     },
     {
       texto: 'Switches',
-      ruta: './temreactiveplate/switches',
+      ruta: './reactive/switches',
     },
   ];
 }
