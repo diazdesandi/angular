@@ -2,7 +2,7 @@
 
 <hr />
 
-<form>
+<form [formGroup]="miFormulario">
   <!-- Radio -->
   <div class="row mb-3">
     <label class="col-sm-3 col-form-label">Género</label>
@@ -11,7 +11,7 @@
         <input
           class="form-check-input"
           type="radio"
-          name="radioGenero"
+          formControlName="genero"
           id="radioMasculino"
           value="M"
         />
@@ -21,6 +21,7 @@
         <input
           class="form-check-input"
           type="radio"
+          formControlName="genero"
           id="radioFemenino"
           value="F"
         />
@@ -37,6 +38,7 @@
         <input
           class="form-check-input"
           type="checkbox"
+          formControlName="notificaciones"
           role="switch"
           id="flexSwitchCheckChecked"
           checked
@@ -56,6 +58,7 @@
           class="form-check-input"
           type="checkbox"
           id="flexCheckDefault"
+          formControlName="terminos"
         />
         <label class="form-check-label" for="flexCheckDefault">
           Términos y condiciones
@@ -65,20 +68,16 @@
   </div>
   <div class="row">
     <div class="col">
-      <button
-        class="btn btn-primary float-end"
-      >
-        Guardar
-      </button>
+      <button class="btn btn-primary float-end" (click)="guardar()" type="submit">Guardar</button>
     </div>
   </div>
 </form>
 
-<!-- <h5>Valor del formulario</h5>
+<h5>Valor del formulario</h5>
 <pre>{{ miFormulario.value | json }}</pre>
+<h5>Persona</h5>
+<pre>{{ persona | json }}</pre>
 <h5>Valid</h5>
 <pre>{{ miFormulario.valid }}</pre>
-<h5>Términos</h5>
-<pre>{{ miFormulario.controls["terminos"]?.errors | json }}</pre>
-<br />
-<pre>Condiciones:</pre> -->
+<!-- <h5>Términos</h5>
+<pre>{{ miFormulario.controls["terminos"]?.errors | json }}</pre> -->

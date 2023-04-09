@@ -1,0 +1,81 @@
+<h2>Validaciones Reactivas</h2>
+<hr />
+
+<div class="row">
+  <div class="col">
+    <form
+      autocomplete="off"
+      [formGroup]="miFormulario"
+      (ngSubmit)="submitForm()"
+    >
+      <!-- Nombre -->
+      <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Nombre: </label>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nombre del usuario"
+            formControlName="nombre"
+          />
+          <span class="form-text text-danger" *ngIf="campoValidacion('nombre')"
+            >Debe de ser en formato de nombre y apellido</span
+          >
+        </div>
+      </div>
+      <!-- Email -->
+      <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Correo electrónico</label>
+        <div class="col-sm-9">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Correo electrónico"
+            formControlName="email"
+          />
+          <span class="form-text text-danger" *ngIf="campoValidacion('email')"
+            >Correo electrónico es obligatorio</span
+          >
+        </div>
+      </div>
+      <!-- Nombre de usuario -->
+      <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Usuario</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" placeholder="Usuario" />
+        </div>
+      </div>
+      <!-- Contraseña -->
+      <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Contraseña</label>
+        <div class="col-sm-9">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Contraseña"
+          />
+        </div>
+      </div>
+      <!-- Confirmar Contraseña -->
+      <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Confirmar contraseña</label>
+        <div class="col-sm-9">
+          <input type="password" class="formControl" placeholder="Contraseña" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-primary float-end" type="submit">Crear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<h2>FormValid</h2>
+<pre>{{ miFormulario.valid | json }}</pre>
+<h5>Nombre</h5>
+<pre>{{ miFormulario.controls["nombre"].errors | json }}</pre>
+<h5>Correo electrónico</h5>
+<pre>{{ miFormulario.controls["email"].errors | json }}</pre>
