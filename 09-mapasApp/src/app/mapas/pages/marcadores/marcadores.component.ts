@@ -1,9 +1,17 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import { map } from 'rxjs';
 
 interface MarcadorColor {
   color: string;
-  marcador: mapboxgl.Marker;
+  marcador?: mapboxgl.Marker;
+  centro?: [number, number];
 }
 
 @Component({
@@ -28,7 +36,7 @@ interface MarcadorColor {
     `,
   ],
 })
-export class MarcadoresComponent implements AfterViewInit {
+export class MarcadoresComponent implements AfterViewInit, AfterViewChecked {
   @ViewChild('mapa') divMapa!: ElementRef;
   mapa!: mapboxgl.Map;
   zoomLevel: number = 15;
@@ -39,6 +47,10 @@ export class MarcadoresComponent implements AfterViewInit {
 
   constructor() {}
 
+  ngAfterViewChecked(): void {
+    this.guardarMarcadores();
+  }
+
   ngAfterViewInit(): void {
     this.mapa = new mapboxgl.Map({
       container: this.divMapa.nativeElement,
@@ -46,6 +58,8 @@ export class MarcadoresComponent implements AfterViewInit {
       center: this.center,
       zoom: this.zoomLevel,
     });
+
+    this.leerLocalStorage();
 
     // Marcadores hard-coded
     // const markerHtml: HTMLElement = document.createElement('div');
@@ -71,10 +85,71 @@ export class MarcadoresComponent implements AfterViewInit {
 
     this.marcadores.push({ color: color, marcador: nuevoMarcador });
 
-    console.log(this.marcadores);
+    // console.log(this.marcadores);
+
+    this.guardarMarcadores();
+
+    // Para que se guarde cuando se mueva el marcador
+    nuevoMarcador.on('dragend', () => {
+      this.guardarMarcadores();
+    });
   }
 
-  irMarcador() {
-    // this.mapa.flyTo()
+  irMarcador(marker: mapboxgl.Marker) {
+    this.mapa.flyTo({
+      center: marker.getLngLat(),
+    });
+  }
+
+  guardarMarcadores() {
+    const lngLatArr: MarcadorColor[] = [];
+    this.marcadores.forEach((m) => {
+      const color = m.color;
+      const { lng, lat } = m.marcador!.getLngLat();
+
+      lngLatArr.push({
+        color: color,
+        centro: [lng, lat],
+      });
+    });
+
+    localStorage.setItem('marcadores', JSON.stringify(lngLatArr));
+  }
+
+  leerLocalStorage() {
+    if (!localStorage.getItem('marcadores')) {
+      return;
+    }
+
+    const lngLatArr: MarcadorColor[] = JSON.parse(
+      localStorage.getItem('marcadores')!
+    );
+
+    console.log(lngLatArr);
+
+    lngLatArr.forEach((m) => {
+      const newMarker = new mapboxgl.Marker({
+        color: m.color,
+        draggable: true,
+      })
+        .setLngLat(m.centro!)
+        .addTo(this.mapa);
+
+      this.marcadores.push({
+        marcador: newMarker,
+        color: m.color,
+      });
+
+      // Para que se guarde cuando se mueva el marcador
+      newMarker.on('dragend', () => {
+        this.guardarMarcadores();
+      });
+    });
+  }
+
+  borrarMarcador(i: number) {
+    this.marcadores[i].marcador?.remove();
+    this.marcadores.splice(i, 1);
+    this.guardarMarcadores();
   }
 }
