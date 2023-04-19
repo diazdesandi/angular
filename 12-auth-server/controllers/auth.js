@@ -46,10 +46,47 @@ const crearUsuario = async (req, res = response) => {
 };
 
 // Iniciar sesión
-const iniciarSesion = (req, res = response) => {
+const iniciarSesion = async (req, res = response) => {
   const { email, password } = req.body;
-  console.log(email, password);
-  return res.json({ ok: true, msg: "Inicio de sesión" });
+
+  try {
+    const dbUser = await Usuario.findOne({ email });
+
+    if (!dbUser) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Correo no existe",
+      });
+    }
+
+    // Confirmar contraseña
+    const validPassword = bcrypt.compareSync(password, dbUser.password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Contraseña inválida",
+      });
+    }
+
+    // JWT Token
+    const token = await generarJWT(dbUser.id, dbUser.name);
+
+    // Respuesta del servicio
+    return res.json({
+      ok: true,
+      uid: dbUser.uid,
+      name: dbUser.name,
+      token,
+      msg: "Iniciar sesión",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
 };
 
 // Validación token
