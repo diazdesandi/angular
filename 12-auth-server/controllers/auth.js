@@ -90,10 +90,12 @@ const iniciarSesion = async (req, res = response) => {
 };
 
 // Validación token
-const validarToken = (req, res = response) => {
-
+const validarToken = async (req, res = response) => {
   const { uid, name } = req;
-  return res.json({ ok: true, msg: "renew tkn" });
+
+  const token = await generarJWT(uid, name); // Revalidar token
+
+  return res.json({ ok: true, msg: "Token renovar", uid, name, token });
 };
 
 module.exports = {
