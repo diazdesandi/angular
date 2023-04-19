@@ -91,6 +91,8 @@ const iniciarSesion = async (req, res = response) => {
 
 // Validación token
 const validarToken = (req, res = response) => {
+
+  const { uid, name } = req;
   return res.json({ ok: true, msg: "renew tkn" });
 };
 
