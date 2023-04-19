@@ -4,6 +4,7 @@ const {
   crearUsuario,
   iniciarSesion,
   validarToken,
+  test,
 } = require("../controllers/auth");
 const { validarCampos } = require("../middlewares/validar-campos");
 
