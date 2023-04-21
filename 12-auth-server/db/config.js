@@ -5,9 +5,9 @@ const dbConnection = async () => {
     mongoose.set("strictQuery", true);
     await mongoose.connect(process.env.BD_CNN);
 
-    console.log("DB Online");
+    // console.log("DB Online");
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw new Error("Error a la hora de iniciar la BD ver logs");
   }
 };

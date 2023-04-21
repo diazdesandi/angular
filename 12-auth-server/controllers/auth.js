@@ -35,6 +35,7 @@ const crearUsuario = async (req, res = response) => {
       ok: true,
       uid: dbUser.id,
       name,
+      email,
       token,
     });
   } catch (error) {
@@ -77,11 +78,12 @@ const iniciarSesion = async (req, res = response) => {
       ok: true,
       uid: dbUser.uid,
       name: dbUser.name,
+      email: dbUser.email,
       token,
       msg: "Iniciar sesión",
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({
       ok: false,
       msg: "Hable con el administrador",
@@ -91,11 +93,21 @@ const iniciarSesion = async (req, res = response) => {
 
 // Validación token
 const validarToken = async (req, res = response) => {
-  const { uid, name } = req;
+  const { uid } = req;
 
-  const token = await generarJWT(uid, name); // Revalidar token
+  // Leer base de datos para obtener email
+  const dbUser = await Usuario.findById(uid);
 
-  return res.json({ ok: true, msg: "Token renovar", uid, name, token });
+  const token = await generarJWT(uid, dbUser.name); // Revalidar token
+
+  return res.json({
+    ok: true,
+    msg: "Token renovar",
+    uid,
+    name: dbUser.name,
+    email: dbUser.email,
+    token,
+  });
 };
 
 module.exports = {
